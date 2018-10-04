@@ -1,6 +1,3 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -15,7 +12,7 @@ const styles = StyleSheet.create({
   });
   
   
-const UserHomeScreen = () => {
+  let HomeScreen = () => {
     return (
         <View style={styles.container}>
           <Text>Home Screen</Text>
@@ -27,4 +24,3 @@ const UserHomeScreen = () => {
         </View>
       )
   }
-export default UserHomeScreen;

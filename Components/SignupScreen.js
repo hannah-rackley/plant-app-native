@@ -31,10 +31,9 @@ const User = t.struct({
 
 const Form = t.form.Form;
 
-class LoginScreen extends React.Component {
+class SignupScreen extends React.Component {
   constructor(props) {
     super(props)
-    this._userLogin = this.userLogin.bind(this)
     this._userSignup = this.userSignup.bind(this)
   }
 
@@ -60,6 +59,9 @@ class LoginScreen extends React.Component {
               (AsyncStorage.getItem('token'))
               .then((token) => console.log(token))
             })
+            .then(() => {
+                this.props.navigation.navigate('App')
+            })
             .catch(error => {
               console.log('Signup error' + error.message);
               throw error;
@@ -72,47 +74,11 @@ class LoginScreen extends React.Component {
     }
   }
 
-  userLogin() {
-    var value = this.refs.form.getValue();
-    if (value) {
-        fetch(`${SERVER_URL}/login`, {
-            method: "POST", 
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: value.email, 
-                password: value.password, 
-            })
-        })
-        .then((response) => {
-          return response.json();
-        })
-        .then((responseData) => {
-            saveItem('token', responseData.token)
-            .then(() => {
-              // Alert.alert('Login success!')
-              (AsyncStorage.getItem('token'))
-              .then((token) => console.log(token))
-            })
-            .catch(error => {
-              console.log('Login error' + error.message);
-              throw error;
-            })
-        })
-        .catch(error => {
-          console.log('error' + error.message);
-          throw error;
-        })
-    }
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.login}>
-            <Text>Login</Text>
+            <Text>SIGNUP</Text>
         </View>
         <Form 
         ref="form"
@@ -124,10 +90,15 @@ class LoginScreen extends React.Component {
             title ="Signup" 
             onPress={this._userSignup} 
             color='#b1bb6c'/>
+            {/* <Button 
+            style={styles.button}
+            title="Already a member? Login!" 
+            color="#b1bb6c"
+            onPress={() => {this.props.navigation.navigate('LoginScreen')}} /> */}
         </View>
       </View>
     )
   }
 }
 
-export default LoginScreen;
+export default SignupScreen;

@@ -35,44 +35,6 @@ class LoginScreen extends React.Component {
   constructor(props) {
     super(props)
     this._userLogin = this.userLogin.bind(this)
-    this._userSignup = this.userSignup.bind(this)
-  }
-
-  userSignup() {
-    var value = this.refs.form.getValue();
-    if (value) {
-        fetch(`${SERVER_URL}/signup`, {
-            method: "POST", 
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: value.email, 
-                password: value.password, 
-            })
-        })
-        .then((response) => response.json())
-        .then((responseData) => {
-            saveItem('token', responseData.token)
-            .then(() => {
-              // Alert.alert('Signup success!');
-              (AsyncStorage.getItem('token'))
-              .then((token) => console.log(token))
-            })
-            .then(() => {
-                this.props.navigation.navigate('App')
-            })
-            .catch(error => {
-              console.log('Signup error' + error.message);
-              throw error;
-            })
-        })
-        .catch(error => {
-          console.log('Signup error' + error.message);
-          throw error;
-        })
-    }
   }
 
   userLogin() {
@@ -116,7 +78,7 @@ class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.login}>
-            <Text>Login</Text>
+            <Text>LOGIN</Text>
         </View>
         <Form 
         ref="form"
@@ -130,8 +92,8 @@ class LoginScreen extends React.Component {
             onPress={this._userLogin} />
             <Button 
             style={styles.button}
-            title ="Signup" 
-            onPress={this._userSignup} 
+            title ="Not a member? Signup!" 
+            onPress={() => {this.props.navigation.navigate('SignupScreen')}} 
             color='#b1bb6c'/>
         </View>
       </View>
