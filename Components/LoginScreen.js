@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
       borderColor: '#b1bb6c',
   }
   });
-
   
 class LoginScreen extends React.Component {
   constructor(props) {
