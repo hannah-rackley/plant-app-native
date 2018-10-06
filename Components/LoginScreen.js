@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import { Text, TouchableHighlight, AsyncStorage, StyleSheet } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Label, Title } from 'native-base';
-import { multiSaveItem, saveItem } from '../deviceStorage';
+import { Text, AsyncStorage, StyleSheet } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Label, Title, Button } from 'native-base';
+import { multiSaveItem } from '../deviceStorage';
 import SERVER_URL from '../secrets'
 
 const styles = StyleSheet.create({
@@ -11,16 +11,8 @@ const styles = StyleSheet.create({
       alignSelf: 'center'
   },
     button: {
-      height: 36,
       backgroundColor: '#b1bb6c',
       borderColor: '#b1bb6c',
-      borderWidth: 1,
-      borderRadius: 8,
-      marginBottom: 10,
-      alignSelf: 'center',
-      justifyContent: 'center',
-      paddingLeft: 15,
-      paddingRight: 15,
   }
   });
 
@@ -52,11 +44,11 @@ class LoginScreen extends React.Component {
           return response.json();
         })
         .then((responseData) => {
-            // multiSaveItem('token', responseData.token, 'id', responseData.id)
-            saveItem('token', responseData.token)
+          console.log(responseData)
+            multiSaveItem('token', responseData.token, 'id', responseData.id.toString())
             .then(() => {
               // Alert.alert('Login success!')
-              (AsyncStorage.getItem('token'))
+              (AsyncStorage.getItem('id'))
               .then((token) => console.log(token))
             })
             .then(() => {
@@ -89,12 +81,12 @@ class LoginScreen extends React.Component {
                 <Input onChangeText={(password) => this.setState({password})}/>
               </Item>
             </Form>
-          <TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
+          <Button block onPress={this._userLogin} style={styles.button}>
               <Text style={styles.buttonText}>Login</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.button} onPress={() => {this.props.navigation.navigate('Signup')}} underlayColor='#99d9f4'>
-              <Text style={styles.buttonText}>Not a member? Signup!</Text>
-          </TouchableHighlight>
+          </Button>
+          <Button transparent block onPress={() => {this.props.navigation.navigate('Signup')}}>
+              <Text >Not a member? Signup!</Text>
+          </Button>
         </Content>
       </Container>
     )
