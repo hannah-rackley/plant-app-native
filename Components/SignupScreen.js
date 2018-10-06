@@ -1,45 +1,63 @@
 import React from 'react';
-import { Text, View, Button, AsyncStorage, StyleSheet } from 'react-native';
-import t from 'tcomb-form-native';
+import { Text, View, TouchableHighlight, AsyncStorage, StyleSheet } from 'react-native';
 import { saveItem } from '../deviceStorage';
+import { Container, Header, Content, Form, Item, Input, Label, Title } from 'native-base';
 import SERVER_URL from '../secrets'
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
+        marginTop: 50,
+        padding: 20,
+        backgroundColor:'#ffffff',
+    },
+    buttonText: {
+        fontSize: 18,
+        color: 'white',
+        alignSelf: 'center'
     },
     button: {
-        color: '#ffcdd2',
-        marginBottom: '5px'
-    },
-    login: {
-        backgroundColor:'#b1bb6c',
-        flex: 1,
+        height: 36,
+        backgroundColor: '#b1bb6c',
+        borderColor: '#b1bb6c',
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 10,
+        alignSelf: 'center',
         justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        maxHeight: '15%',
-        marginBottom: 10
+        paddingLeft: 15,
+        paddingRight: 15,
+    },
+    signup: {
+        height: 70,
+        backgroundColor: '#b1bb6c',
+        borderColor: '#b1bb6c',
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 100,
+        alignSelf: 'stretch',
+        justifyContent: 'center'
+    },
+    signupText: {
+        fontSize: 30,
+        color: 'white',
+        alignSelf: 'center'
     }
   });
 
-const User = t.struct({
-    email: t.String,
-    password: t.String
-  })
-
-const Form = t.form.Form;
-
 class SignupScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+        email: '',
+        password: ''
+      };
     this._userSignup = this.userSignup.bind(this)
   }
 
   userSignup() {
-    var value = this.refs.form.getValue();
-    if (value) {
+    if (this.state.password !== '' && this.state.email !== '')
         fetch(`${SERVER_URL}/signup`, {
             method: "POST", 
             headers: {
@@ -47,18 +65,19 @@ class SignupScreen extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: value.email, 
-                password: value.password, 
+                email: this.state.email, 
+                password: this.state.password, 
             })
         })
         .then((response) => response.json())
         .then((responseData) => {
-            saveItem('token', responseData.token)
-            .then(() => {
-              // Alert.alert('Signup success!');
-              (AsyncStorage.getItem('token'))
-              .then((token) => console.log(token))
-            })
+            console.log(responseData)
+            saveItem('token', responseData.token);
+        })
+            // .then(() => {
+            //   (AsyncStorage.getItem('token'))
+            //   .then((token) => console.log(token))
+            // })
             .then(() => {
                 this.props.navigation.navigate('App')
             })
@@ -66,37 +85,37 @@ class SignupScreen extends React.Component {
               console.log('Signup error' + error.message);
               throw error;
             })
-        })
         .catch(error => {
           console.log('Signup error' + error.message);
           throw error;
         })
     }
-  }
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.login}>
-            <Text>SIGNUP</Text>
-        </View>
-        <Form 
-        ref="form"
-        type={User}
-        style={styles.form} />
-        <View style={styles.container}>
-            <Button 
-            style={styles.button}
-            title ="Signup" 
-            onPress={this._userSignup} 
-            color='#b1bb6c'/>
-            {/* <Button 
-            style={styles.button}
-            title="Already a member? Login!" 
-            color="#b1bb6c"
-            onPress={() => {this.props.navigation.navigate('LoginScreen')}} /> */}
-        </View>
-      </View>
+      <Container>
+      <Header> 
+        <Title>Signup</Title>
+      </Header>
+      <Content>
+        <Form ref="form">
+            <Item floatingLabel>
+              <Label>Email</Label>
+              <Input onChangeText={(email) => this.setState({email})}/>
+            </Item>
+            <Item floatingLabel>
+              <Label>Password</Label>
+              <Input onChangeText={(password) => this.setState({password})}/>
+            </Item>
+          </Form>
+        <TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Signup</Text>
+        </TouchableHighlight>
+        <TouchableHighlight style={styles.button} onPress={() => {this.props.navigation.navigate('Login')}} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Already a member? Login!</Text>
+        </TouchableHighlight>
+      </Content>
+    </Container>
     )
   }
 }

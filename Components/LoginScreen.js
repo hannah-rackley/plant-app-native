@@ -1,45 +1,42 @@
-import React from 'react';
-import { Text, View, Button, AsyncStorage, StyleSheet } from 'react-native';
-import t from 'tcomb-form-native';
-import { saveItem } from '../deviceStorage';
+import React, {Component} from 'react';
+import { Text, TouchableHighlight, AsyncStorage, StyleSheet } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Label, Title } from 'native-base';
+import { multiSaveItem, saveItem } from '../deviceStorage';
 import SERVER_URL from '../secrets'
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-    },
+    buttonText: {
+      fontSize: 18,
+      color: 'white',
+      alignSelf: 'center'
+  },
     button: {
-        color: '#ffcdd2',
-        marginBottom: '5px'
-    },
-    login: {
-        backgroundColor:'#b1bb6c',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        maxHeight: '15%',
-        marginBottom: 10
-    }
+      height: 36,
+      backgroundColor: '#b1bb6c',
+      borderColor: '#b1bb6c',
+      borderWidth: 1,
+      borderRadius: 8,
+      marginBottom: 10,
+      alignSelf: 'center',
+      justifyContent: 'center',
+      paddingLeft: 15,
+      paddingRight: 15,
+  }
   });
 
-const User = t.struct({
-    email: t.String,
-    password: t.String
-  })
-
-const Form = t.form.Form;
-
+  
 class LoginScreen extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
     this._userLogin = this.userLogin.bind(this)
   }
 
   userLogin() {
-    var value = this.refs.form.getValue();
-    if (value) {
+    if (this.state.password !== '' && this.state.email !== '') {
         fetch(`${SERVER_URL}/login`, {
             method: "POST", 
             headers: {
@@ -47,14 +44,15 @@ class LoginScreen extends React.Component {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: value.email, 
-                password: value.password, 
+                email: this.state.email, 
+                password: this.state.password, 
             })
         })
         .then((response) => {
           return response.json();
         })
         .then((responseData) => {
+            // multiSaveItem('token', responseData.token, 'id', responseData.id)
             saveItem('token', responseData.token)
             .then(() => {
               // Alert.alert('Login success!')
@@ -76,27 +74,29 @@ class LoginScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.login}>
-            <Text>LOGIN</Text>
-        </View>
-        <Form 
-        ref="form"
-        type={User}
-        style={styles.form} />
-        <View style={styles.container}>
-            <Button 
-            style={styles.button}
-            title="Login" 
-            color="#b1bb6c"
-            onPress={this._userLogin} />
-            <Button 
-            style={styles.button}
-            title ="Not a member? Signup!" 
-            onPress={() => {this.props.navigation.navigate('SignupScreen')}} 
-            color='#b1bb6c'/>
-        </View>
-      </View>
+      <Container>
+        <Header> 
+          <Title> Login</Title>
+        </Header>
+        <Content>
+          <Form ref="form">
+              <Item floatingLabel>
+                <Label>Email</Label>
+                <Input onChangeText={(email) => this.setState({email})}/>
+              </Item>
+              <Item floatingLabel>
+                <Label>Password</Label>
+                <Input onChangeText={(password) => this.setState({password})}/>
+              </Item>
+            </Form>
+          <TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={() => {this.props.navigation.navigate('Signup')}} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}>Not a member? Signup!</Text>
+          </TouchableHighlight>
+        </Content>
+      </Container>
     )
   }
 }

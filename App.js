@@ -4,9 +4,10 @@ import SignupScreen from './Components/SignupScreen'
 import SignoutScreen from './Components/SignoutScreen';
 import UserHomeScreen from './Components/UserHomeScreen';
 import AuthLoadingScreen from './Components/AuthLoadingScreen';
+import AddPlantScreen from './Components/AddPlantScreen';
 
-const AppStack = createBottomTabNavigator({ Home: UserHomeScreen, Signout: SignoutScreen})
-const AuthStack = createStackNavigator({ Login: LoginScreen, SignupScreen: SignupScreen })
+const AppStack = createBottomTabNavigator({ Home: UserHomeScreen, 'Add Plant': AddPlantScreen, Signout: SignoutScreen})
+const AuthStack = createSwitchNavigator({ Login: LoginScreen, Signup: SignupScreen })
 
 export default createSwitchNavigator(
   {
