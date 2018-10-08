@@ -82,8 +82,7 @@ class AddPlantScreen extends React.Component {
             .then((response) => {
                 let response2 = response.text()
                 return response2})
-            .then((responseData) => {
-                console.log(responseData);
+            .then(() => {
                 this.setState({
                     name: '',
                     location: '',

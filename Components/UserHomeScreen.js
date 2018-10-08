@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, AsyncStorage } from 'react-native';
+import { Image, AsyncStorage, ScrollView } from 'react-native';
 import SERVER_URL from '../secrets';
 import PlantCard from './PlantCard';
 import { Container, Title, Header, Content } from 'native-base';
@@ -8,7 +8,7 @@ class UserHomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      plants: undefined
+      plants: undefined,
     }
   }
 
@@ -35,26 +35,22 @@ class UserHomeScreen extends React.Component {
     this.fetchPlants();
   }
 
-  componentDidUpdate(prevProps) {
-    console.log(prevProps)
-    console.log(this.state.props);
-    this.fetchPlants();
-    // if (prevProps.match.id !== this.props.match.id || prevProps.match.id === undefined) {
-    //   this.fetchPlants();
-    // }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevState)
+  //   console.log(this.state.plants);
+  // }
     
   render() {
     return (
       <Container>
-      <Header>
-        <Title>
-          Thyme Tracker
-        </Title>
-      </Header>
-      <Content>
-        {this.state.plants !== undefined ? this.state.plants.map(plant => <PlantCard key={plant.id} plant={plant} /> ) : null}
-      </Content>
+        <Header>
+          <Title>
+            Thyme Tracker
+          </Title>
+        </Header>
+        <Content>
+          {this.state.plants !== undefined ? this.state.plants.map(plant => <PlantCard key={plant.id} plant={plant} /> ) : null}
+        </Content>
     </Container>)
 
     }
