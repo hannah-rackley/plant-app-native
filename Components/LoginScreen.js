@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { Text, AsyncStorage, StyleSheet } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Label, Title, Button } from 'native-base';
 import { multiSaveItem } from '../deviceStorage';
@@ -46,7 +46,6 @@ class LoginScreen extends React.Component {
           console.log(responseData)
             multiSaveItem('token', responseData.token, 'id', responseData.id.toString())
             .then(() => {
-              // Alert.alert('Login success!')
               (AsyncStorage.getItem('id'))
               .then((token) => console.log(token))
             })
