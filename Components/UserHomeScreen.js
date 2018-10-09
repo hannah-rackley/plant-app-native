@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, AsyncStorage, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import SERVER_URL from '../secrets';
 import PlantCard from './PlantCard';
 import { Container, Title, Header, Content } from 'native-base';
@@ -24,7 +25,9 @@ class UserHomeScreen extends React.Component {
       .then(response => {
         return response.text()})
       .then(data => {
-        this.setState({ plants: JSON.parse(data)}) ;
+        let data2 = JSON.parse(data);
+        this.props.dispatch({ type: 'LOAD_USER_PLANTS', plants: data2 })
+        this.setState({ plants: data2}) ;
       })
       .catch(error => {throw error})
     })
@@ -35,24 +38,36 @@ class UserHomeScreen extends React.Component {
     this.fetchPlants();
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log(prevState)
-  //   console.log(this.state.plants);
-  // }
+  componentDidUpdate() {
+    if (this.props.render === true) {
+      this.fetchPlants();
+      this.props.dispatch({ type: 'ADDED_PLANT', render: false})
+      console.log(this.props.plants);
+    }
+  }
+
+  componentWillUnmount() {
+
+  }
     
   render() {
     return (
-      <Container>
-        <Header>
-          <Title>
-            Thyme Tracker
-          </Title>
-        </Header>
-        <Content>
-          {this.state.plants !== undefined ? this.state.plants.map(plant => <PlantCard key={plant.id} plant={plant} /> ) : null}
-        </Content>
-    </Container>)
+      <ScrollView>
+        <Container>
+          <Header>
+            <Title>
+              Thyme Tracker
+            </Title>
+          </Header>
+          <Content>
+            {this.state.plants !== undefined ? this.state.plants.map(plant => <PlantCard key={plant.id} plant={plant} /> ) : null}
+          </Content>
+      </Container>
+      </ScrollView>)
 
     }
   }   
-export default UserHomeScreen;
+
+  const SmartUserHomeScreen = connect(state => state)(UserHomeScreen);
+
+  export default SmartUserHomeScreen;
