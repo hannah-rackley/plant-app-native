@@ -19,16 +19,12 @@ export default class AuthLoadingScreen extends React.Component {
       super(props);
       this._getToken();
     }
-
-    async componentDidMount() {
+    //Fetch token from asynstorage if it has been stored
+    _getToken = async () => {
       await Expo.Font.loadAsync({
         'Roboto': require('native-base/Fonts/Roboto.ttf'),
         'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
       });
-    }
-  
-    //Fetch token from asynstorage if it has been stored
-    _getToken = async () => {
       const token = await AsyncStorage.getItem('token');
       this.props.navigation.navigate(token ? 'App' : 'Auth');
     }

@@ -41,13 +41,8 @@ class SignupScreen extends React.Component {
         })
         .then((response) => response.json())
         .then((responseData) => {
-            console.log(responseData)
-            multiSaveItem('token', responseData.token, 'id', responseData.id);
+            multiSaveItem('token', responseData.token, 'id', responseData.id.toString());
         })
-            // .then(() => {
-            //   (AsyncStorage.getItem('token'))
-            //   .then((token) => console.log(token))
-            // })
             .then(() => {
                 this.props.navigation.navigate('App')
             })

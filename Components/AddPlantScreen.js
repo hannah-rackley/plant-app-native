@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Form, Label, Textarea, Input, Item, Picker, Icon, Container, Header, Content, DatePicker, Text, Title, Button } from 'native-base';
 import { ScrollView, AsyncStorage, StyleSheet } from 'react-native';
 import SERVER_URL from '../secrets'
+import { connect } from 'react-redux';
 
 var styles = StyleSheet.create({
     container: {
@@ -82,8 +83,7 @@ class AddPlantScreen extends React.Component {
             .then((response) => {
                 let response2 = response.text()
                 return response2})
-            .then((responseData) => {
-                console.log(responseData);
+            .then(() => {
                 this.setState({
                     name: '',
                     location: '',
@@ -92,6 +92,7 @@ class AddPlantScreen extends React.Component {
                     days: '',
                     notes: ''
                 })
+                this.props.dispatch({ type: 'ADDED_PLANT', render: true})
                 this.props.navigation.navigate('Home')
             })
             .catch(error => {
@@ -168,4 +169,6 @@ class AddPlantScreen extends React.Component {
     }
 }
 
-export default AddPlantScreen;
+const SmartAddPlantScreen = connect(state => ({dispatch: state.dispatch}))(AddPlantScreen);
+
+export default SmartAddPlantScreen;
