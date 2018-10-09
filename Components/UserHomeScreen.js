@@ -42,7 +42,6 @@ class UserHomeScreen extends React.Component {
     if (this.props.render === true) {
       this.fetchPlants();
       this.props.dispatch({ type: 'ADDED_PLANT', render: false})
-      console.log(this.props.plants);
     }
   }
 
@@ -60,7 +59,7 @@ class UserHomeScreen extends React.Component {
             </Title>
           </Header>
           <Content>
-            {this.state.plants !== undefined ? this.state.plants.map(plant => <PlantCard key={plant.id} plant={plant} /> ) : null}
+            {this.state.plants !== undefined ? this.state.plants.map(plant => <PlantCard key={plant.id} plant={plant} navigate={this.props.navigation.navigate}/> ) : null}
           </Content>
       </Container>
       </ScrollView>)

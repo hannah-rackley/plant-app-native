@@ -103,6 +103,12 @@ class AddPlantScreen extends React.Component {
             throw error;
         })
     }
+
+    customDateFormatter = date => [
+        date.getMonth() + 1,
+        date.getDate(),
+        date.getFullYear()
+      ].join('/')
   
     render() {
         return (
@@ -125,7 +131,7 @@ class AddPlantScreen extends React.Component {
                         defaultDate={new Date(2018, 10, 1)}
                         minimumDate={new Date(2018, 1, 1)}
                         maximumDate={new Date()}
-                        locale={"en"}
+                        locale={"us"}
                         timeZoneOffsetInMinutes={undefined}
                         modalTransparent={false}
                         animationType={"fade"}
@@ -134,6 +140,7 @@ class AddPlantScreen extends React.Component {
                         textStyle={{ color: "#b1bb6c" }}
                         placeHolderTextStyle={{ color: "#d3d3d3" }}
                         onDateChange={this.setDate}
+                        formatChosenDate={this.customDateFormatter}
                         />
                     <Text>
                         Date: {this.state.wateredDate.toString().substr(4, 12)}
