@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
     button: {
       backgroundColor: '#b1bb6c',
       borderColor: '#b1bb6c',
+  },
+  error: {
+    color: 'red',
+    alignSelf: 'center'
   }
   });
   
@@ -21,13 +25,15 @@ class LoginScreen extends React.Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: undefined
     };
     this._userLogin = this.userLogin.bind(this)
   }
 
   userLogin() {
     if (this.state.password !== '' && this.state.email !== '') {
+        this.setState({error: undefined});
         fetch(`${SERVER_URL}/login`, {
             method: "POST", 
             headers: {
@@ -53,10 +59,12 @@ class LoginScreen extends React.Component {
                 this.props.navigation.navigate('App')
             })
             .catch(error => {
+              this.setState({error: 'Login error - incorrect username or password'})
               console.log('Login error' + error.message);
             })
         })
         .catch(error => {
+          this.setState({error: 'Login error - incorrect username or password'})
           console.log('error' + error.message);
         })
     }
@@ -85,6 +93,7 @@ class LoginScreen extends React.Component {
           <Button transparent block onPress={() => {this.props.navigation.navigate('Signup')}}>
               <Text >Not a member? Signup!</Text>
           </Button>
+          {this.state.error !== undefined ? <Text style={styles.error}>{this.state.error}</Text> : null}
         </Content>
       </Container>
     )

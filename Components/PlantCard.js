@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import  { connect } from 'react-redux';
+import addDays from 'date-fns/add_days';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 import { Container, Title, Header, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, Right } from 'native-base';
 var styles = StyleSheet.create({
     buttonText: {
@@ -18,18 +21,15 @@ const PlantCard = ( props ) => {
         props.dispatch({ type: 'UPDATE_CURRENT_PLANT', plant: props.plant });
         props.navigate('Plant');
     }
-    customDateFormatter = (date) => [
-        date.slice(6, 8),
-        date.slice(9, 11),
-        date.slice(1, 5)
-      ].join('/')
-    let date = customDateFormatter(JSON.stringify(props.plant.last_watered));
+    let date = format((parse(props.plant.last_watered)), 'MMM DD');
+    let result = format(addDays(parse(props.plant.last_watered), props.plant.water_frequency), 'MMM DD');
     return (
         <Card>
             <CardItem>
                 <Left>
                     <Body>
                         <Text>{props.plant.name}</Text>
+                        <Text style={{ fontSize: 30 }}>Water: {result}</Text>
                         <Text note>Last Watered: {date}</Text>
                     </Body>
                 </Left>
