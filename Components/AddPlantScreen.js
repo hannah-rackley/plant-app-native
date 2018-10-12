@@ -1,8 +1,10 @@
-import React, {Component} from 'react';
-import { Form, Label, Textarea, Input, Item, Picker, Icon, Container, Header, Content, DatePicker, Text, Title, Button } from 'native-base';
+import React from 'react';
+import { Form, Textarea, Input, Item, Picker, Icon, Container, Header, Content, DatePicker, Text, Title, Button } from 'native-base';
 import { ScrollView, AsyncStorage, StyleSheet } from 'react-native';
 import SERVER_URL from '../secrets'
 import { connect } from 'react-redux';
+import parse from 'date-fns/parse';
+import format from 'date-fns/format';
 
 var styles = StyleSheet.create({
     container: {
@@ -45,7 +47,7 @@ class AddPlantScreen extends React.Component {
             location: '',
             wateredDate: new Date(),
             light: undefined,
-            days: undefined,
+            days: '',
             notes: ''
          };
         this.onLightChange = this.onLightChange.bind(this);
@@ -89,7 +91,7 @@ class AddPlantScreen extends React.Component {
                     location: '',
                     wateredDate: new Date(),
                     light: undefined,
-                    days: undefined,
+                    days: '',
                     notes: ''
                 })
                 this.props.dispatch({ type: 'ADDED_PLANT', render: true})
@@ -103,12 +105,6 @@ class AddPlantScreen extends React.Component {
             throw error;
         })
     }
-
-    customDateFormatter = date => [
-        date.getMonth() + 1,
-        date.getDate(),
-        date.getFullYear()
-      ].join('/')
   
     render() {
         return (
@@ -124,11 +120,15 @@ class AddPlantScreen extends React.Component {
                     <Item>
                         <Input value={this.state.location} onChangeText={(location) => this.setState({location})} placeholder="Location"/>
                     </Item>
-                    <Item>
-                        <Input required value={this.state.days} onChangeText={(days) => this.setState({days})} placeholder="Days between watering"/>
-                    </Item>
+                    {this.state.days !== '' ?  <Item success>
+                            <Input value={this.state.days} onChangeText={(days) => this.setState({days})}/>
+                            <Icon name='checkmark-circle' />
+                        </Item> : <Item error>
+                            <Input value={this.state.days} onChangeText={(days) => this.setState({days})} placeholder="Days between watering - Required"/>
+                            <Icon name='close-circle' />
+                        </Item> }
                     <DatePicker
-                        defaultDate={new Date(2018, 10, 1)}
+                        defaultDate={new Date()}
                         minimumDate={new Date(2018, 1, 1)}
                         maximumDate={new Date()}
                         locale={"us"}
@@ -136,14 +136,14 @@ class AddPlantScreen extends React.Component {
                         modalTransparent={false}
                         animationType={"fade"}
                         androidMode={"default"}
-                        placeHolderText="Date Plant Last Watered"
-                        textStyle={{ color: "#b1bb6c" }}
-                        placeHolderTextStyle={{ color: "#d3d3d3" }}
+                        placeHolderText="Click to choose last watered date"
+                        textStyle={{ color: "black" }}
+                        // placeHolderTextStyle={{ color: "#d3d3d3" }}
                         onDateChange={this.setDate}
-                        formatChosenDate={this.customDateFormatter}
+                        formatChosenDate={(date) => format(parse(date), 'MMM DD, YYYY')}
                         />
-                    <Text>
-                        Date: {this.state.wateredDate.toString().substr(4, 12)}
+                    <Text style={{ marginLeft: 15}}>
+                        Date: {format(parse(this.state.wateredDate.toString().substr(4, 12)), 'MMM DD, YYYY')}
                     </Text>
                     <Form>
                         <Item picker>

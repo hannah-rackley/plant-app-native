@@ -3,7 +3,6 @@ import { Image, AsyncStorage, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
 import parse from 'date-fns/parse';
-import format from 'date-fns/format';
 import SERVER_URL from '../secrets';
 import PlantCard from './PlantCard';
 import { Container, Title, Header, Content } from 'native-base';

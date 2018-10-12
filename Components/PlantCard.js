@@ -31,7 +31,6 @@ var styles = StyleSheet.create({
   });
 
 const PlantCard = ( props ) => {
-    console.log(props);
     let currentCardColor;
     if (props.plant.daysTilWater <= 0) {
         currentCardColor = styles.pastDue;
@@ -45,23 +44,19 @@ const PlantCard = ( props ) => {
         props.navigate('Plant');
     }
     const updateWateredDate = () => {
-        AsyncStorage.getItem('id')
-        .then(id => {
-            fetch(`${SERVER_URL}/api/update-watered`, {
-                method: "PUT", 
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    plant_id: props.plant.id,
-                    last_watered: new Date(),
-                })
+        fetch(`${SERVER_URL}/api/update-watered`, {
+            method: "PUT", 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                plant_id: props.plant.id,
+                last_watered: new Date(),
             })
-            .then(() => {
-                props.dispatch({ type: 'ADDED_PLANT', render: true })
-            })
-              .catch(error => {throw error})
+        })
+        .then(() => {
+            props.dispatch({ type: 'ADDED_PLANT', render: true })
         })
             .catch(error => {throw error})
     }
