@@ -1,10 +1,11 @@
-import { createSwitchNavigator, createBottomTabNavigator } from 'react-navigation';
+import { createSwitchNavigator, createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import LoginScreen from './Components/LoginScreen';
 import SignupScreen from './Components/SignupScreen'
 import SignoutScreen from './Components/SignoutScreen';
 import UserHomeScreen from './Components/UserHomeScreen';
 import AuthLoadingScreen from './Components/AuthLoadingScreen';
 import AddPlantScreen from './Components/AddPlantScreen';
+import PlantScreen from './Components/PlantScreen'
 import reducer from './reducer'
 import React from 'react';
 import { createStore } from 'redux';
@@ -12,6 +13,7 @@ import { Provider } from 'react-redux';
 
 let initialState = {
   plants: [],
+  currentPlant: {}
 }
 
 const state = createStore(
@@ -20,13 +22,31 @@ const state = createStore(
 
 
 const AppStack = createBottomTabNavigator({ Home: UserHomeScreen, 'Add Plant': AddPlantScreen, Signout: SignoutScreen})
-const AuthStack = createSwitchNavigator({ Login: LoginScreen, Signup: SignupScreen })
+const AuthSwitch = createSwitchNavigator({ Login: LoginScreen, Signup: SignupScreen })
+
+const PlantStack = createStackNavigator({
+    Plant: {
+      screen: PlantScreen,
+    },
+    Main: {
+      screen: AppStack
+    }, 
+  },
+    {
+      mode: 'modal',
+      headerMode: 'none'
+    },
+  {
+    initialRouteName: 'Main'
+  }
+);
 
 const AppNavigator = createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen, 
     App: AppStack, 
-    Auth: AuthStack,
+    Auth: AuthSwitch,
+    Plant: PlantStack
   },
   {
     initialRouteName: 'AuthLoading'
