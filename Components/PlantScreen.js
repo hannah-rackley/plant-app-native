@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button } from 'native-base';
+import { View, Text, Button, Item, Container, Content, Header, Title } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
@@ -14,42 +14,28 @@ let styles = StyleSheet.create({
     button: {
         backgroundColor: '#b1bb6c',
         borderColor: '#b1bb6c',
+        alignSelf: 'flex-start'
     }
   });
 
 const PlantScreen = (props) => {
-    let result = format(addDays(parse(props.plant.last_watered), props.plant.water_frequency), 'MMM DD');
-    const deletePlant = () => {
-        fetch(`${SERVER_URL}/api/delete-plant`, {
-            method: "DELETE", 
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                plant_id: props.plant.id,
-            })
-        })
-        .then(() => {
-            props.dispatch({ type: 'ADDED_PLANT', render: true })
-            props.navigation.navigate('Main')
-        })
-            .catch(error => {throw error})
-    }
+    let result = format(addDays(parse(props.plant.last_watered), props.plant.water_frequency), 'MMM DD, YYYY');
+    
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{ fontSize: 30 }}>{props.plant.name}</Text>
-            <Text style={{ fontSize: 30 }}>Water Next: {result}</Text>
-            <Text style={{ fontSize: 30 }}>Sunlight Requirements {props.plant.light}</Text>
-            <Text style={{ fontSize: 30 }}>{props.plant.water_frequency}</Text>
-            {props.plant.notes.length > 0 ? <Text style={{ fontSize: 30 }}>Notes: {props.plant.notes}</Text> : null}
-            <Button button style={styles.button} onPress={deletePlant} underlayColor='#99d9f4'>
-                <Text style={styles.buttonText}>Delete Plant</Text>
-            </Button>
-            <Button button style={styles.button} onPress={() => props.navigation.navigate('Main')} underlayColor='#99d9f4'>
-                <Text style={styles.buttonText}>Home</Text>
-            </Button>
-        </View>
+        <Container>
+            <Header> 
+                <Title>{props.plant.name}</Title>
+            </Header>
+            <Content>
+                <Text style={{ fontSize: 30 }}>Water Next: {result}</Text>
+                <Text style={{ fontSize: 30 }}>Sunlight Requirements: {props.plant.light}</Text>
+                <Text style={{ fontSize: 30 }}>Water every {props.plant.water_frequency} day(s)</Text>
+                {props.plant.notes.length > 0 ? <Text style={{ fontSize: 30 }}>Notes: {props.plant.notes}</Text> : null}
+                <Button button style={styles.button} onPress={() => props.navigation.navigate('Main')} underlayColor='#99d9f4'>
+                    <Text style={styles.buttonText}>Home</Text>
+                </Button>
+            </Content>
+        </Container>
     );
 }
 

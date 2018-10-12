@@ -5,7 +5,7 @@ import addDays from 'date-fns/add_days';
 import parse from 'date-fns/parse';
 import SERVER_URL from '../secrets';
 import PlantCard from './PlantCard';
-import { Container, Title, Header, Content } from 'native-base';
+import { Container, Title, Header, Content, List } from 'native-base';
 import { differenceInMinutes } from 'date-fns';
         
 class UserHomeScreen extends React.Component {
@@ -62,10 +62,6 @@ class UserHomeScreen extends React.Component {
       this.fetchPlants();
       this.props.dispatch({ type: 'ADDED_PLANT', render: false})
     }
-  }
-
-  componentWillUnmount() {
-
   }
     
   render() {
