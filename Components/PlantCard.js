@@ -63,7 +63,6 @@ const PlantCard = ( props ) => {
 
     let date = format((parse(props.plant.last_watered)), 'MMM DD');
     let result = format(parse(props.plant.water_next), 'MMM DD');
-    console.log(result);
     return (
         <Card style={currentCardColor}>
             <CardItem style={currentCardColor} button onPress={navigateToPlant}>

@@ -19,15 +19,33 @@ let styles = StyleSheet.create({
 
 const PlantScreen = (props) => {
     let result = format(addDays(parse(props.plant.last_watered), props.plant.water_frequency), 'MMM DD');
-    
+    const deletePlant = () => {
+        fetch(`${SERVER_URL}/api/delete-plant`, {
+            method: "DELETE", 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                plant_id: props.plant.id,
+            })
+        })
+        .then(() => {
+            props.dispatch({ type: 'ADDED_PLANT', render: true })
+            props.navigation.navigate('Main')
+        })
+            .catch(error => {throw error})
+    }
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontSize: 30 }}>{props.plant.name}</Text>
-            <Text style={{ fontSize: 30 }}>Water: {result}</Text>
+            <Text style={{ fontSize: 30 }}>Water Next: {result}</Text>
             <Text style={{ fontSize: 30 }}>Sunlight Requirements {props.plant.light}</Text>
             <Text style={{ fontSize: 30 }}>{props.plant.water_frequency}</Text>
-            <Text style={{ fontSize: 30 }}>Notes: {props.plant.notes}</Text>
-
+            {props.plant.notes.length > 0 ? <Text style={{ fontSize: 30 }}>Notes: {props.plant.notes}</Text> : null}
+            <Button button style={styles.button} onPress={deletePlant} underlayColor='#99d9f4'>
+                <Text style={styles.buttonText}>Delete Plant</Text>
+            </Button>
             <Button button style={styles.button} onPress={() => props.navigation.navigate('Main')} underlayColor='#99d9f4'>
                 <Text style={styles.buttonText}>Home</Text>
             </Button>
@@ -35,5 +53,5 @@ const PlantScreen = (props) => {
     );
 }
 
-const SmartPlantScreen = connect(state => ({ plant: state.currentPlant }))(PlantScreen)
+const SmartPlantScreen = connect(state => ({ plant: state.currentPlant, dispatch: state.dispatch }))(PlantScreen)
 export default SmartPlantScreen;
