@@ -45,7 +45,7 @@ class AddPlantScreen extends React.Component {
             location: '',
             wateredDate: new Date(),
             light: undefined,
-            days: '',
+            days: undefined,
             notes: ''
          };
         this.onLightChange = this.onLightChange.bind(this);
@@ -89,7 +89,7 @@ class AddPlantScreen extends React.Component {
                     location: '',
                     wateredDate: new Date(),
                     light: undefined,
-                    days: '',
+                    days: undefined,
                     notes: ''
                 })
                 this.props.dispatch({ type: 'ADDED_PLANT', render: true})
@@ -125,7 +125,7 @@ class AddPlantScreen extends React.Component {
                         <Input value={this.state.location} onChangeText={(location) => this.setState({location})} placeholder="Location"/>
                     </Item>
                     <Item>
-                        <Input value={this.state.days} onChangeText={(days) => this.setState({days})} placeholder="Days between watering"/>
+                        <Input required value={this.state.days} onChangeText={(days) => this.setState({days})} placeholder="Days between watering"/>
                     </Item>
                     <DatePicker
                         defaultDate={new Date(2018, 10, 1)}
