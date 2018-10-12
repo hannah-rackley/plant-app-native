@@ -11,21 +11,29 @@ var styles = StyleSheet.create({
         padding: 0,
         margin: 0,
     },
+    cardText: {
+        color: 'white', 
+        fontSize: 20,
+        alignSelf: 'center'
+    },
     pastDue: {
-        padding: 5,
-        margin: 2,
+        alignSelf: 'center',
+        padding: 10,
+        marginLeft: 15,
         borderColor: '#d3d3d3',
-        backgroundColor: '#e57373'
+        backgroundColor: '#CA5C54'
     },
     dueSoon: {
-        padding: 5,
-        margin: 5,
+        alignSelf: 'center',
+        padding: 10,
+        marginLeft: 15,
         borderColor: '#d3d3d3',
         backgroundColor: '#e1ffb1'
     },
     dueLater: {
-        padding: 5,
-        margin: 5,
+        alignSelf: 'center',
+        padding: 10,
+        marginLeft: 15,
         borderColor: '#d3d3d3',
         backgroundColor: '#7da453',
     }
@@ -52,7 +60,7 @@ const PlantCard = ( props ) => {
             })
         })
         .then(() => {
-            props.dispatch({ type: 'ADDED_PLANT', render: true })
+            props.dispatch({ type: 'UPDATE_RENDER', render: true })
         })
             .catch(error => {throw error})
     }
@@ -75,13 +83,13 @@ const PlantCard = ( props ) => {
             })
         })
         .then(() => {
-            props.dispatch({ type: 'ADDED_PLANT', render: true })
+            props.dispatch({ type: 'UPDATE_RENDER', render: true })
         })
             .catch(error => {throw error})
     }
 
-    let date = format((parse(props.plant.last_watered)), 'MMM DD');
-    let result = format(parse(props.plant.water_next), 'MMM DD');
+    // let date = format((parse(props.plant.last_watered)), 'MMM DD');
+    let result = format(parse(props.plant.water_next), 'dddd, MMM DD');
 
     return (
         <Content>
@@ -89,16 +97,16 @@ const PlantCard = ( props ) => {
             leftOpenValue={75}
             rightOpenValue={-75}
             left={
-            <Button onPress={updateWateredDate}>
-                <FontAwesome active name="tint" solid style={{ fontSize: 25}}/>
+            <Button style={{backgroundColor: 'rgba(0, 172, 193, 0.7)'}} onPress={updateWateredDate}>
+                <FontAwesome active name="tint" solid style={{ fontSize: 25, color: 'white' }}/>
             </Button>
             }
             body={
                 <CardItem button onPress={navigateToPlant} style={currentCardColor} >
                     <Body>
-                        <Text style={{color: 'white', fontSize: 20}}>{props.plant.name}</Text>
-                        <Text style={{color: 'white', fontSize: 20}}>{props.plant.location}</Text>
-                        <Text style={{color: 'white', fontSize: 20}}>Water Next: {result}</Text>
+                        <Text style={styles.cardText}>{props.plant.name}</Text>
+                        <Text style={styles.cardText}>Located in {props.plant.location}</Text>
+                        <Text style={styles.cardText}>Water Next: {result}</Text>
                     </Body>
                 </CardItem>
             }

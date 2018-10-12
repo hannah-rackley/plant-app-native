@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Item, Container, Content, Header, Title } from 'native-base';
+import { View, Left, Text, Button, Body, Item, Container, Content, Header, Title, ScrollView, ListItem, Separator } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
@@ -12,9 +12,13 @@ let styles = StyleSheet.create({
         alignSelf: 'center'
     },
     button: {
-        backgroundColor: '#b1bb6c',
-        borderColor: '#b1bb6c',
-        alignSelf: 'flex-start'
+        marginTop: 10,
+        backgroundColor: '#7da453',
+        borderColor: '#7da453',
+        alignSelf: 'center'
+    },
+    notes: {
+        color: '#d3d3d3'
     }
   });
 
@@ -24,15 +28,37 @@ const PlantScreen = (props) => {
     return (
         <Container>
             <Header> 
-                <Title>{props.plant.name}</Title>
+                <Body>
+                    <Title>{props.plant.name}</Title>
+                </Body>
             </Header>
             <Content>
-                <Text style={{ fontSize: 30 }}>Water Next: {result}</Text>
-                <Text style={{ fontSize: 30 }}>Sunlight Requirements: {props.plant.light}</Text>
-                <Text style={{ fontSize: 30 }}>Water every {props.plant.water_frequency} day(s)</Text>
-                {props.plant.notes.length > 0 ? <Text style={{ fontSize: 30 }}>Notes: {props.plant.notes}</Text> : null}
-                <Button button style={styles.button} onPress={() => props.navigation.navigate('Main')} underlayColor='#99d9f4'>
-                    <Text style={styles.buttonText}>Home</Text>
+                <Separator bordered>
+                    <Text>Sunlight Requirements</Text>
+                </Separator>
+                <ListItem>
+                    <Text>{props.plant.light}</Text>
+                </ListItem>
+                <Separator bordered>
+                    <Text>Water Schedule</Text>
+                </Separator>
+                <ListItem>
+                    <Text>Last Watered: {format(parse(props.plant.last_watered), 'MMM DD, YYYY')}</Text>
+                </ListItem>
+                <ListItem>
+                    <Text>Water Next: {result}</Text>
+                </ListItem>
+                <ListItem last>
+                    <Text>Days between watering: {props.plant.water_frequency}</Text>
+                </ListItem>
+                <Separator bordered>
+                    <Text>Notes</Text>
+                </Separator>
+                <ListItem last>
+                    {props.plant.notes.length > 0 ? <Text>{props.plant.notes}</Text> : <Text style={styles.notes}>No notes</Text>}
+                </ListItem>
+                <Button button style={styles.button} onPress={() => props.navigation.navigate('Main')}>
+                    <Text style={styles.buttonText}>Back</Text>
                 </Button>
             </Content>
         </Container>

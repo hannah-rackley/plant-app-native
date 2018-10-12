@@ -66,18 +66,18 @@ class UserHomeScreen extends React.Component {
     
   render() {
     return (
-      <ScrollView>
         <Container>
           <Header>
             <Title>
               Thyme Tracker
             </Title>
           </Header>
-          <Content>
-            {this.props.plants !== undefined ? this.props.plants.map(plant => <PlantCard key={plant.id} plant={plant} navigate={this.props.navigation.navigate}/> ) : null}
-          </Content>
-      </Container>
-      </ScrollView>)
+          <ScrollView>
+            <Content>
+              {this.props.plants !== undefined ? this.props.plants.map(plant => <PlantCard key={plant.id} plant={plant} navigate={this.props.navigation.navigate}/> ) : null}
+            </Content>
+          </ScrollView>
+        </Container>)
 
     }
   }   

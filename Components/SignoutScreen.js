@@ -27,7 +27,7 @@ class SignoutScreen extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-          <Button title="Actually, sign me out :)" onPress={this._clearStorage} />
+          <Button button danger rounded title="Sign Out" onPress={this._clearStorage} />
         </View>
       );
     }
