@@ -1,11 +1,11 @@
 import React from 'react';
-import { Image, AsyncStorage, ScrollView } from 'react-native';
+import { AsyncStorage, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
 import parse from 'date-fns/parse';
 import SERVER_URL from '../secrets';
 import PlantCard from './PlantCard';
-import { Container, Title, Header, Content, List } from 'native-base';
+import { Container, Title, Header, Content } from 'native-base';
 import { differenceInMinutes } from 'date-fns';
         
 class UserHomeScreen extends React.Component {
@@ -59,8 +59,9 @@ class UserHomeScreen extends React.Component {
 
   componentDidUpdate() {
     if (this.props.render === true) {
+      console.log('re-render');
       this.fetchPlants();
-      this.props.dispatch({ type: 'ADDED_PLANT', render: false})
+      this.props.dispatch({ type: 'UPDATE_RENDER', render: false})
     }
   }
     
@@ -69,7 +70,7 @@ class UserHomeScreen extends React.Component {
         <Container>
           <Header>
             <Title>
-              Thyme Tracker
+              Thyme Tracker/Leaf Log/My Plant Diaries
             </Title>
           </Header>
           <ScrollView>
