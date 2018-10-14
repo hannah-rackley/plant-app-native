@@ -34,8 +34,10 @@ var styles = StyleSheet.create({
         alignSelf: 'center'
     },
     button: {
-        backgroundColor: '#b1bb6c',
-        borderColor: '#b1bb6c',
+        marginTop: 10,
+        alignSelf: 'center',
+        backgroundColor: '#7da453',
+        borderColor: '#7da453',
     }
   });
 
@@ -94,7 +96,7 @@ class AddPlantScreen extends React.Component {
                     days: '',
                     notes: ''
                 })
-                this.props.dispatch({ type: 'ADDED_PLANT', render: true})
+                this.props.dispatch({ type: 'UPDATE_RENDER', render: true})
                 this.props.navigation.navigate('Home')
             })
             .catch(error => {

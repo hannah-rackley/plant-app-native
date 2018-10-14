@@ -5,7 +5,7 @@ const loadUserPlants = (oldState, action) => {
     }
 }
 
-const addedPlantCheck = (oldState, action) => {
+const updateRender = (oldState, action) => {
     return {
         ...oldState, 
         render: action.render
@@ -21,7 +21,7 @@ const updateCurrentPlant = (oldState, action) => {
 
 const reducerRouter = {
     'LOAD_USER_PLANTS': loadUserPlants,
-    'ADDED_PLANT': addedPlantCheck,
+    'UPDATE_RENDER': updateRender,
     'UPDATE_CURRENT_PLANT': updateCurrentPlant
 }
 

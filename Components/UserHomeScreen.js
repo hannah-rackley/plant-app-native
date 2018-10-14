@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, AsyncStorage, ScrollView } from 'react-native';
+import { AsyncStorage, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
 import parse from 'date-fns/parse';
@@ -16,14 +16,14 @@ class UserHomeScreen extends React.Component {
   sortPlants(plants) {
     let updatedPlants = plants.map(plant => {
       let result = addDays(parse(plant.last_watered), plant.water_frequency);
-      let daysTilWater = differenceInMinutes(result, new Date());
-      return {...plant, water_next: result, daysTilWater: daysTilWater};
+      let minutesTilWater = differenceInMinutes(result, new Date());
+      return {...plant, water_next: result, minutesTilWater: minutesTilWater};
     })
     compare = (a, b) => {
       let comparison = 0;
-      if (a.daysTilWater > b.daysTilWater) {
+      if (a.minutesTilWater > b.minutesTilWater) {
         comparison = 1;
-      } else if (b.daysTilWater > a.daysTilWater) {
+      } else if (b.minutesTilWater > a.minutesTilWater) {
         comparison = -1;
       }
       return comparison;
@@ -59,29 +59,26 @@ class UserHomeScreen extends React.Component {
 
   componentDidUpdate() {
     if (this.props.render === true) {
+      console.log('re-render');
       this.fetchPlants();
-      this.props.dispatch({ type: 'ADDED_PLANT', render: false})
+      this.props.dispatch({ type: 'UPDATE_RENDER', render: false})
     }
-  }
-
-  componentWillUnmount() {
-
   }
     
   render() {
     return (
-      <ScrollView>
         <Container>
           <Header>
             <Title>
-              Thyme Tracker
+              Foliage Follower
             </Title>
           </Header>
-          <Content>
-            {this.props.plants !== undefined ? this.props.plants.map(plant => <PlantCard key={plant.id} plant={plant} navigate={this.props.navigation.navigate}/> ) : null}
-          </Content>
-      </Container>
-      </ScrollView>)
+          <ScrollView>
+            <Content>
+              {this.props.plants !== undefined ? this.props.plants.map(plant => <PlantCard key={plant.id} plant={plant} navigate={this.props.navigation.navigate}/> ) : null}
+            </Content>
+          </ScrollView>
+        </Container>)
 
     }
   }   
