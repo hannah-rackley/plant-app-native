@@ -57,7 +57,7 @@ const PlantScreen = (props) => {
                 <ListItem last>
                     {props.plant.notes.length > 0 ? <Text>{props.plant.notes}</Text> : <Text style={styles.notes}>No notes</Text>}
                 </ListItem>
-                <Button button style={styles.button} onPress={() => props.navigation.navigate('Main')}>
+                <Button style={styles.button} onPress={() => props.navigation.navigate('Main')}>
                     <Text style={styles.buttonText}>Back</Text>
                 </Button>
             </Content>

@@ -1,18 +1,6 @@
 import React from 'react';
-import { View, Button, AsyncStorage, StyleSheet } from 'react-native';
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-    },
-    button: {
-      color: '#ffcdd2',
-      marginBottom: '5px'
-    }
-  });
+import { AsyncStorage } from 'react-native';
+import {  Button, Text, Container, Header, Title, Content } from 'native-base';
 
 class SignoutScreen extends React.Component {
     constructor(props) {
@@ -26,9 +14,16 @@ class SignoutScreen extends React.Component {
   
     render() {
       return (
-        <View style={styles.container}>
-          <Button button danger rounded title="Sign Out" onPress={this._clearStorage} />
-        </View>
+        <Container>
+            <Header>
+              <Title>Sign Out</Title>
+            </Header>
+          <Content style={{marginTop: '50%'}}>
+            <Button block danger onPress={this._clearStorage} style={{padding: 50}}>
+              <Text style={{fontSize: 30}}>SIGN OUT</Text>
+            </Button>
+          </Content>
+      </Container>
       );
     }
   }

@@ -11,8 +11,13 @@ var styles = StyleSheet.create({
         padding: 0,
         margin: 0,
     },
-    cardText: {
+    whiteCardText: {
         color: 'white', 
+        fontSize: 20,
+        alignSelf: 'center'
+    },
+    blackCardText: {
+        color: 'darkslategray', 
         fontSize: 20,
         alignSelf: 'center'
     },
@@ -28,7 +33,7 @@ var styles = StyleSheet.create({
         padding: 10,
         marginLeft: 15,
         borderColor: '#d3d3d3',
-        backgroundColor: '#e1ffb1'
+        backgroundColor: '#f4f747'
     },
     dueLater: {
         alignSelf: 'center',
@@ -41,12 +46,16 @@ var styles = StyleSheet.create({
 
 const PlantCard = ( props ) => {
     let currentCardColor;
-    if (props.plant.daysTilWater <= 0) {
+    let cardText;
+    if (props.plant.minutesTilWater <= 1080) {
         currentCardColor = styles.pastDue;
-    } else if (props.plant.daysTilWater <=1) {
+        cardText = styles.whiteCardText;
+    } else if (props.plant.minutesTilWater <= 2880) {
         currentCardColor = styles.dueSoon;
+        cardText = styles.blackCardText;
     } else {
-        currentCardColor = styles.dueLater
+        currentCardColor = styles.dueLater;
+        cardText = styles.whiteCardText;
     }
     const deletePlant = () => {
         fetch(`${SERVER_URL}/api/delete-plant`, {
@@ -92,7 +101,7 @@ const PlantCard = ( props ) => {
     let result = format(parse(props.plant.water_next), 'dddd, MMM DD');
 
     return (
-        <Content>
+        <Content scrollEnabled={false}>
             <SwipeRow
             leftOpenValue={75}
             rightOpenValue={-75}
@@ -104,9 +113,9 @@ const PlantCard = ( props ) => {
             body={
                 <CardItem button onPress={navigateToPlant} style={currentCardColor} >
                     <Body>
-                        <Text style={styles.cardText}>{props.plant.name}</Text>
-                        <Text style={styles.cardText}>Located in {props.plant.location}</Text>
-                        <Text style={styles.cardText}>Water Next: {result}</Text>
+                        <Text style={cardText}>{props.plant.name}</Text>
+                        <Text style={cardText}>Located in {props.plant.location}</Text>
+                        <Text style={cardText}>Water Next: {result}</Text>
                     </Body>
                 </CardItem>
             }
