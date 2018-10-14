@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
 import parse from 'date-fns/parse'
 import format from 'date-fns/format'
+import ImagePickerScreen from './ImagePicker';
 
 let styles = StyleSheet.create({
     buttonText: {

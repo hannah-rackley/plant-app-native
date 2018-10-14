@@ -10,6 +10,7 @@ import reducer from './reducer'
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+// import CameraScreen from './Components/CameraScreen';
 
 let initialState = {
   plants: [],

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Form, Textarea, Input, Item, Picker, Icon, Container, Header, Content, DatePicker, Text, Title, Button } from 'native-base';
-import { ScrollView, AsyncStorage, StyleSheet } from 'react-native';
+import { ScrollView, AsyncStorage, StyleSheet, Image, View } from 'react-native';
 import SERVER_URL from '../secrets'
 import { connect } from 'react-redux';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
+import { ImagePicker } from 'expo';
+import ImagePickerScreen from './ImagePicker';
 
 var styles = StyleSheet.create({
     container: {
@@ -50,11 +52,13 @@ class AddPlantScreen extends React.Component {
             wateredDate: new Date(),
             light: undefined,
             days: '',
-            notes: ''
+            notes: '',
+            image: null,
          };
         this.onLightChange = this.onLightChange.bind(this);
         this.setDate = this.setDate.bind(this);
         this.onPress = this.onPress.bind(this);
+        this.pickImage = this.pickImage.bind(this);
     }
 
     setDate(newDate) {
@@ -64,6 +68,19 @@ class AddPlantScreen extends React.Component {
     onLightChange(light) {
         this.setState({light})
     }
+
+    async pickImage() {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          allowsEditing: true,
+          aspect: [4, 3],
+        });
+    
+        console.log(result);
+    
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+      };
 
     onPress() {
         AsyncStorage.getItem('id')
@@ -81,7 +98,8 @@ class AddPlantScreen extends React.Component {
                     lastWatered: this.state.wateredDate,
                     days: this.state.days,
                     location: this.state.location,
-                    notes: this.state.notes
+                    notes: this.state.notes, 
+                    image: this.state.image
                 })
             })
             .then((response) => {
@@ -109,6 +127,7 @@ class AddPlantScreen extends React.Component {
     }
   
     render() {
+        let { image } = this.state;
         return (
         <ScrollView>
             <Container>
@@ -168,6 +187,11 @@ class AddPlantScreen extends React.Component {
                     <Form>
                         <Textarea value={this.state.notes} rowSpan={5} onChangeText={(notes) => this.setState({notes})} bordered placeholder="Notes" />
                     </Form>
+                    <ImagePickerScreen pickImage={this.pickImage}/>
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        {image &&
+                            <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+                    </View>
                     <Button button style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
                         <Text style={styles.buttonText}>Add</Text>
                     </Button>
