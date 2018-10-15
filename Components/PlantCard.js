@@ -31,12 +31,10 @@ var styles = StyleSheet.create({
     },
     whiteCardText: {
         color: 'white', 
-        // fontSize: ,
         alignSelf: 'center'
     },
     blackCardText: {
         color: 'darkslategray', 
-        // fontSize: 20,
         alignSelf: 'center'
     },
     pastDue: {
