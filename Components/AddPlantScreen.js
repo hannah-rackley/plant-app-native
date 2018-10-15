@@ -129,11 +129,11 @@ class AddPlantScreen extends React.Component {
     render() {
         let { image } = this.state;
         return (
-        <ScrollView>
-            <Container>
-                <Header>
-                    <Title>New Plant</Title>
-                </Header>
+        <Container>
+            <Header>
+                <Title>New Plant</Title>
+            </Header>
+            <ScrollView>
                 <Content>
                     <Item>
                         <Input value={this.state.name} onChangeText={(name) => this.setState({name})} placeholder="Plant's Name"/>
@@ -196,8 +196,8 @@ class AddPlantScreen extends React.Component {
                         <Text style={styles.buttonText}>Add</Text>
                     </Button>
                 </Content>
-            </Container>
-        </ScrollView>
+            </ScrollView>
+        </Container>
         )
     }
 }

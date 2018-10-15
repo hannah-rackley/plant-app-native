@@ -1,61 +1,81 @@
 import SERVER_URL from '../secrets';
 import React from 'react';
-import { StyleSheet, AsyncStorage } from 'react-native';
+import { StyleSheet, AsyncStorage, Image } from 'react-native';
 import  { connect } from 'react-redux';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Content, Text, Button, Icon, Body, SwipeRow, View, ListItem, CardItem} from 'native-base';
+import { Content, Text, Button, Icon, Body, SwipeRow, View, Card, Thumbnail, ListItem, Left, Right, CardItem} from 'native-base';
 var styles = StyleSheet.create({
     body: {
         padding: 0,
         margin: 0,
     },
-    whiteCardText: {
-        color: 'white', 
-        fontSize: 20,
-        alignSelf: 'center'
-    },
-    blackCardText: {
-        color: 'darkslategray', 
-        fontSize: 20,
-        alignSelf: 'center'
-    },
-    pastDue: {
-        alignSelf: 'center',
-        padding: 10,
+    pastDueCard: {
+        flex: 1,
         marginLeft: 15,
         borderColor: '#d3d3d3',
         backgroundColor: '#CA5C54'
     },
-    dueSoon: {
-        alignSelf: 'center',
-        padding: 10,
+    dueSoonCard: {
+        flex: 1,
         marginLeft: 15,
         borderColor: '#d3d3d3',
         backgroundColor: '#f4f747'
     },
-    dueLater: {
+    dueLaterCard: {
+        flex: 1,
+        marginLeft: 15,
+        borderColor: '#d3d3d3',
+        backgroundColor: '#7da453',
+    },
+    whiteCardText: {
+        color: 'white', 
+        // fontSize: ,
+        alignSelf: 'center'
+    },
+    blackCardText: {
+        color: 'darkslategray', 
+        // fontSize: 20,
+        alignSelf: 'center'
+    },
+    pastDue: {
+        flex: 1,
         alignSelf: 'center',
         padding: 10,
-        marginLeft: 15,
+        borderColor: '#d3d3d3',
+        backgroundColor: '#CA5C54'
+    },
+    dueSoon: {
+        flex: 1,
+        alignSelf: 'center',
+        padding: 10,
+        borderColor: '#d3d3d3',
+        backgroundColor: '#f4f747'
+    },
+    dueLater: {
+        flex: 1,
+        alignSelf: 'center',
+        padding: 10,
         borderColor: '#d3d3d3',
         backgroundColor: '#7da453',
     }
   });
 
 const PlantCard = ( props ) => {
-    let currentCardColor;
-    let cardText;
+    let currentCardColor, cardText, card;
     if (props.plant.minutesTilWater <= 1080) {
         currentCardColor = styles.pastDue;
         cardText = styles.whiteCardText;
+        card = styles.pastDueCard;
     } else if (props.plant.minutesTilWater <= 2880) {
         currentCardColor = styles.dueSoon;
         cardText = styles.blackCardText;
+        card = styles.dueSoonCard;
     } else {
         currentCardColor = styles.dueLater;
         cardText = styles.whiteCardText;
+        card = styles.dueLaterCard;
     }
     const deletePlant = () => {
         fetch(`${SERVER_URL}/api/delete-plant`, {
@@ -98,7 +118,7 @@ const PlantCard = ( props ) => {
     }
 
     // let date = format((parse(props.plant.last_watered)), 'MMM DD');
-    let result = format(parse(props.plant.water_next), 'dddd, MMM DD');
+    let result = format(parse(props.plant.water_next), 'MMM DD');
 
     return (
         <Content scrollEnabled={false}>
@@ -111,13 +131,21 @@ const PlantCard = ( props ) => {
             </Button>
             }
             body={
-                <CardItem button onPress={navigateToPlant} style={currentCardColor} >
-                    <Body>
+                <Card style={card}>
+                    <CardItem style={{flex: 1}} style={currentCardColor}>
                         <Text style={cardText}>{props.plant.name}</Text>
-                        <Text style={cardText}>Located in {props.plant.location}</Text>
-                        <Text style={cardText}>Water Next: {result}</Text>
-                    </Body>
-                </CardItem>
+                    </CardItem>
+                    <CardItem button onPress={navigateToPlant} style={currentCardColor}>
+                        <Image source={{uri: props.plant.selected_image_url}} style={{height: 100, width: 50, flex: 1}}/>
+                        <Body>
+                            <Text style={cardText}>Located in {props.plant.location}</Text>
+                            <Text style={cardText}>Water Next: {result}</Text>
+                        </Body>
+                    </CardItem>
+                    {/* <CardItem cardBody button onPress={navigateToPlant} style={currentCardColor}>
+                        <Image source={{uri: props.plant.selected_image_url}} style={{height: 100, width: null, flex: 1}}/>
+                    </CardItem> */}
+                </Card>
             }
             right={
             <Button danger onPress={deletePlant}>
