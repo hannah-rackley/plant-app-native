@@ -104,7 +104,6 @@ class AddPlantScreen extends React.Component {
                 let response2 = response.text()
                 return response2})
             .then(() => {
-                console.log('hit')
                 this.setState({
                     name: '',
                     location: '',

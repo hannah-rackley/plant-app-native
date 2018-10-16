@@ -96,7 +96,6 @@ class PlantScreen extends React.Component {
             })
         })
         .then((response) => {
-            console.log('heyyy');
             let response2 = response.text()
             return response2})
         .then(() => {
