@@ -1,11 +1,11 @@
 import SERVER_URL from '../secrets';
 import React from 'react';
-import { StyleSheet, AsyncStorage, Image } from 'react-native';
+import { StyleSheet, AsyncStorage, TouchableOpacity, Image } from 'react-native';
 import  { connect } from 'react-redux';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Content, Text, Button, Icon, Body, SwipeRow, View, Card, Thumbnail, ListItem, Left, Right, CardItem} from 'native-base';
+import { Content, Text, Button, Icon, Body, SwipeRow, View, Card, Thumbnail, Container, ListItem, Left, Right, CardItem} from 'native-base';
 var styles = StyleSheet.create({
     body: {
         padding: 0,
@@ -117,7 +117,7 @@ const PlantCard = ( props ) => {
 
     // let date = format((parse(props.plant.last_watered)), 'MMM DD');
     let result = format(parse(props.plant.water_next), 'MMM DD');
-
+    let image_url = props.plant.selected_image_url;
     return (
         <Content scrollEnabled={false}>
             <SwipeRow
@@ -130,19 +130,20 @@ const PlantCard = ( props ) => {
             }
             body={
                 <Card style={card}>
-                    <CardItem style={{flex: 1}} style={currentCardColor}>
-                        <Text style={cardText}>{props.plant.name}</Text>
-                    </CardItem>
-                    <CardItem button onPress={navigateToPlant} style={currentCardColor}>
-                        <Image source={{uri: props.plant.selected_image_url}} style={{height: 100, width: 50, flex: 1}}/>
-                        <Body>
-                            <Text style={cardText}>Located in {props.plant.location}</Text>
-                            <Text style={cardText}>Water Next: {result}</Text>
-                        </Body>
-                    </CardItem>
-                    {/* <CardItem cardBody button onPress={navigateToPlant} style={currentCardColor}>
-                        <Image source={{uri: props.plant.selected_image_url}} style={{height: 100, width: null, flex: 1}}/>
-                    </CardItem> */}
+                    <TouchableOpacity onPress={navigateToPlant}>
+                        <CardItem style={{flex: 1}} style={currentCardColor}>
+                            <Text style={cardText}>{props.plant.name}</Text>
+                        </CardItem>
+                        <CardItem style={currentCardColor}>
+                            {image_url !== null ? <Image source={{uri: props.plant.selected_image_url}} style={{height: 200, width: 50, flex: 1}}/>: null}
+                        </CardItem>
+                        <CardItem style={currentCardColor}>
+                            <Body>
+                                <Text style={cardText}>Located in {props.plant.location}</Text>
+                                <Text style={cardText}>Water Next: {result}</Text>
+                            </Body>
+                        </CardItem>
+                    </TouchableOpacity>
                 </Card>
             }
             right={

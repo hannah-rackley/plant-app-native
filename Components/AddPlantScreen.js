@@ -75,8 +75,6 @@ class AddPlantScreen extends React.Component {
           aspect: [4, 3],
         });
     
-        console.log(result);
-    
         if (!result.cancelled) {
           this.setState({ image: result.uri });
         }
@@ -106,13 +104,15 @@ class AddPlantScreen extends React.Component {
                 let response2 = response.text()
                 return response2})
             .then(() => {
+                console.log('hit')
                 this.setState({
                     name: '',
                     location: '',
                     wateredDate: new Date(),
                     light: undefined,
                     days: '',
-                    notes: ''
+                    notes: '', 
+                    image: null
                 })
                 this.props.dispatch({ type: 'UPDATE_RENDER', render: true})
                 this.props.navigation.navigate('Home')
@@ -129,7 +129,7 @@ class AddPlantScreen extends React.Component {
     render() {
         let { image } = this.state;
         return (
-        <Container>
+        <Container style={{flex: 1}}>
             <Header>
                 <Title>New Plant</Title>
             </Header>
