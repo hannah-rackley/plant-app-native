@@ -1,29 +1,8 @@
 import React from 'react';
-import { View, Left, Right, Icon, Text, Button, Item, Textarea, DatePicker, Picker, Form, Input, Container, Content, Header, Title } from 'native-base';
-import { StyleSheet, ScrollView, Image} from 'react-native';
+import { Left, Right,Text, Button, Container, Content, Header, Title } from 'native-base';
+import { ScrollView, Image} from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
-import addDays from 'date-fns/add_days';
-import parse from 'date-fns/parse'
-import format from 'date-fns/format'
-import ImagePickerScreen from './ImagePicker';
-import { ImagePicker } from 'expo';
-
-let styles = StyleSheet.create({
-    buttonText: {
-        color: 'white',
-        alignSelf: 'center'
-    },
-    button: {
-        marginTop: 10,
-        backgroundColor: '#7da453',
-        borderColor: '#7da453',
-        alignSelf: 'center'
-    },
-    notes: {
-        color: '#d3d3d3'
-    }
-  });
 
 class PhotoScreen extends React.Component {
     constructor(props) {

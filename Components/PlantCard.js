@@ -1,6 +1,6 @@
 import SERVER_URL from '../secrets';
 import React from 'react';
-import { StyleSheet, AsyncStorage, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
 import  { connect } from 'react-redux';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
