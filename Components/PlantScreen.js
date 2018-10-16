@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Left, Text, Button, Body, Icon, Item, Textarea, DatePicker, Picker, Form, Input, Container, Content, Header, Title, ListItem, Separator } from 'native-base';
+import { View, Left, Right, Icon, Text, Button, Item, Textarea, DatePicker, Picker, Form, Input, Container, Content, Header, Title } from 'native-base';
 import { StyleSheet, ScrollView, Image} from 'react-native';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import addDays from 'date-fns/add_days';
 import parse from 'date-fns/parse'
@@ -103,7 +104,7 @@ class PlantScreen extends React.Component {
                 image: null,
             })
             this.props.dispatch({ type: 'UPDATE_RENDER', render: true})
-            // this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('Home')
         })
         .catch(error => {
             throw error;
@@ -116,7 +117,14 @@ class PlantScreen extends React.Component {
         return (
             <Container style={{flex: 1}}>
                 <Header>
-                    <Title>{this.props.plant.name}</Title>
+                    <Left>
+                        <Title>{this.props.plant.name}</Title>
+                    </Left>
+                    <Right>
+                        <Button style={{backgroundColor: 'rgba(0, 0, 0, 0)', alignSelf: 'center', marginBottom: 10}}iconLeft onPress={() => this.props.navigation.navigate('Main')}>
+                            <FontAwesome active name="home" solid style={{ fontSize: 30, alignSelf: 'center' }}/>
+                        </Button>
+                    </Right>
                 </Header>
                 <ScrollView>
                     <Content>
@@ -134,15 +142,9 @@ class PlantScreen extends React.Component {
                         <Item>
                             <Text>Days between watering: </Text>
                             {this.state.days !== '' ?  
-                            // <Item success>
                                 <Input value={this.state.days} onChangeText={(days) => this.setState({days})}/>
-                            //     <Icon name='checkmark-circle' />
-                            // </Item> 
                             : 
-                            // <Item error>
                                 <Input value={this.state.days} onChangeText={(days) => this.setState({days})} placeholder="Required" placeholderTextColor="red"/>
-                            //     <Icon name='close-circle' />
-                            // </Item> }
                             }
                         </Item>
                         <DatePicker
@@ -193,9 +195,6 @@ class PlantScreen extends React.Component {
                         </View>
                         <Button button style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
                             <Text style={styles.buttonText}>Update</Text>
-                        </Button>
-                        <Button style={styles.button} onPress={() => this.props.navigation.navigate('Main')}>
-                            <Text style={styles.buttonText}>Back</Text>
                         </Button>
                     </Content>
                 </ScrollView>

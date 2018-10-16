@@ -10,6 +10,7 @@ import reducer from './reducer'
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import PhotoScreen from './Components/PhotoScreen'
 // import CameraScreen from './Components/CameraScreen';
 
 let initialState = {
@@ -25,9 +26,11 @@ const state = createStore(
 const AppStack = createBottomTabNavigator({ Home: UserHomeScreen, 'Add Plant': AddPlantScreen, Signout: SignoutScreen})
 const AuthSwitch = createSwitchNavigator({ Login: LoginScreen, Signup: SignupScreen })
 
+const PlantNavigator = createBottomTabNavigator({ Info: PlantScreen, Photos: PhotoScreen})
+
 const PlantStack = createStackNavigator({
     Plant: {
-      screen: PlantScreen,
+      screen: PlantNavigator,
     },
     Main: {
       screen: AppStack
@@ -35,10 +38,10 @@ const PlantStack = createStackNavigator({
   },
     {
       mode: 'modal',
-      headerMode: 'none'
+      headerMode: 'none',
     },
   {
-    initialRouteName: 'Main'
+    initialRouteName: 'Plant'
   }
 );
 

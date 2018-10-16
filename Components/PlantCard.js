@@ -5,7 +5,7 @@ import  { connect } from 'react-redux';
 import parse from 'date-fns/parse';
 import format from 'date-fns/format';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { Content, Text, Button, Icon, Body, SwipeRow, View, Card, Thumbnail, Container, ListItem, Left, Right, CardItem} from 'native-base';
+import { Content, Text, Button, Icon, Body, SwipeRow, Card, CardItem} from 'native-base';
 var styles = StyleSheet.create({
     body: {
         padding: 0,
@@ -114,8 +114,6 @@ const PlantCard = ( props ) => {
         })
             .catch(error => {throw error})
     }
-
-    // let date = format((parse(props.plant.last_watered)), 'MMM DD');
     let result = format(parse(props.plant.water_next), 'MMM DD');
     let image_url = props.plant.selected_image_url;
     return (

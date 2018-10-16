@@ -158,7 +158,6 @@ class AddPlantScreen extends React.Component {
                         androidMode={"default"}
                         placeHolderText="Click to choose last watered date"
                         textStyle={{ color: "black" }}
-                        // placeHolderTextStyle={{ color: "#d3d3d3" }}
                         onDateChange={this.setDate}
                         formatChosenDate={(date) => format(parse(date), 'MMM DD, YYYY')}
                         />
