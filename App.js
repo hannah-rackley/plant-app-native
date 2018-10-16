@@ -11,7 +11,6 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import PhotoScreen from './Components/PhotoScreen'
-// import CameraScreen from './Components/CameraScreen';
 
 let initialState = {
   plants: [],
