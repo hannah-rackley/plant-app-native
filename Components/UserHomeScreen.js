@@ -70,7 +70,7 @@ class UserHomeScreen extends React.Component {
         <Container>
           <Header>
             <Title>
-              Foliage Follower
+              Thyme Tracker
             </Title>
           </Header>
           <ScrollView>
