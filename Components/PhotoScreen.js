@@ -18,7 +18,7 @@ class PhotoScreen extends React.Component {
             this.setState({
                 photos: this.props.plant.image_array
             })
-        } else if ( prevProps.plant.image_array.length !== this.props.plant.image_array.length) {
+        } else if (prevProps.plant.image_array.length !== this.props.plant.image_array.length) {
             this.setState({
                 photos: this.props.plant.image_array
             })
@@ -26,9 +26,6 @@ class PhotoScreen extends React.Component {
     }
 
     onPress () {
-        this.setState({
-            photos: [],
-        })
         this.props.navigation.navigate('Main')
     }
     render() {
