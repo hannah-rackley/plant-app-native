@@ -1,6 +1,8 @@
 ### Thyme Tracker
 -----------------
 
+![demo-video](https://github.com/hglasser/plant-app-native/blob/master)
+
 Application built using React Native, Redux, Expo, and Native Base on the frontend and Node.js, Express, and PostgreSQL on the backend. The backend for this project is deployed on AWS. The app can currently be viewed through an IOS Simulator on your laptop, or by downloading Expo and starting the app through that on your phone.
 
 The purpose of Thyme Tracker is to provide a mobile application that allows the user to store info about their plants all in one place. They can also upload photos from their camera roll and see the progress each plant has made. On the user's home screen all of their plants will be displayed in order based upon which plants need to be watered the soonest. The color of each plant card also gives some quick insight into how soon you will need to water each plant.
