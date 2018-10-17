@@ -1,7 +1,7 @@
 ### Thyme Tracker
 -----------------
 
-![demo-video](https://www.youtube.com/watch?v=5M_PMyUh98k&feature=youtu.be)
+[![demo-video](https://img.youtube.com/vi/5M_PMyUh98k/0.jpg)](https://youtu.be/5M_PMyUh98k)
 
 Application built using React Native, Redux, Expo, and Native Base on the frontend and Node.js, Express, and PostgreSQL on the backend. The backend for this project is deployed on AWS. The app can currently be viewed through an IOS Simulator on your laptop, or by downloading Expo and starting the app through that on your phone.
 
